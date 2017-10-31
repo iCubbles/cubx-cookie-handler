@@ -9,21 +9,10 @@
     "email": "edwingamboa355@gmail.com"
   },
   "license": "MIT",
-  "keywords": [ ],
-  "man": [ ],
+  "keywords": [],
+  "man": [],
   "artifacts": {
     "apps": [
-      {
-        "artifactId": "app",
-        "description": "This is a simple pre-generated app.",
-        "runnables": [
-          {
-            "name": "app",
-            "path": "/index.html",
-            "description": "Call this app as a simple demo."
-          }
-        ]
-      },
       {
         "artifactId": "docs",
         "description": "Generated webpackage documentation.",
@@ -36,8 +25,52 @@
         ]
       }
     ],
-    "elementaryComponents": [ ],
-    "compoundComponents": [ ],
-    "utilities": [ ]
+    "elementaryComponents": [
+      {
+        "artifactId": "cubx-cookie-handler",
+        "description": "This component allows managing cookies in client-side",
+        "runnables": [
+          {
+            "name": "demo",
+            "path": "/demo/index.html",
+            "description": "Demo app..."
+          },
+          {
+            "name": "docs",
+            "path": "/docs/index.html",
+            "description": "Show the interface of this component."
+          }
+        ],
+        "resources": [
+          "cubx-cookie-handler.html"
+        ],
+        "dependencies": [
+          {
+            "webpackageId": "cubx.core.rte@2.4.0",
+            "artifactId": "cubxpolymer"
+          }
+        ],
+        "slots": [
+          {
+            "slotId": "cookieAsObject",
+            "type": "object",
+            "description": "Slot to set a cookie using an object -> { \"key\": \"cookieKey\", \"value\": cookieValue }.",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "lastCookie",
+            "type": "object",
+            "description": "Slot indicating the last set cookie as object -> { \"asObject\": { \"key\": \"cookieKey\", \"value\": cookieValue }, \"asString\": \"cookieKey=cookieValue\" }",
+            "direction": [
+              "output"
+            ]
+          }
+        ]
+      }
+    ],
+    "compoundComponents": [],
+    "utilities": []
   }
 }
