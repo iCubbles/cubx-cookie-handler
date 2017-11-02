@@ -10,7 +10,7 @@
    * slot 'a': this.getA(); | this.setA(value)
    */
   CubxPolymer({
-    is: 'cubx-cookie-handler',
+    is: 'cubx-cookie-writer',
 
     /**
      * Manipulate an element’s local DOM when the element is created.
@@ -37,23 +37,15 @@
     },
 
     /**
-     *  Observe the Cubbles-Component-Model: If value for slot 'cookieAsObject' has changed ...
+     *  Observe the Cubbles-Component-Model: If value for slot 'cookie' has changed ...
      */
-    modelCookieAsObjectChanged: function (cookieAsObject) {
-      this._setCookieFromObject(cookieAsObject);
-    },
-
-    _setLastCookieFromObject: function (cookieAsObject) {
-      this.setLastCookie({
-        asObject: cookieAsObject,
-        asString: this._getCookieAsString(cookieAsObject)
-      });
+    modelCookieChanged: function (cookie) {
+      this._setCookieFromObject(cookie);
     },
 
     _setCookieFromObject: function (cookieObject) {
-      if (this._validCookieObject(cookieObject)) {
+      if (this._isValidCookieObject(cookieObject)) {
         this._setCookie(this._getCookieAsString(cookieObject, true));
-        this._setLastCookieFromObject(cookieObject);
       } else {
         this._logError('Invalid cookieObject. It should have following structure: ' +
           '{ key: string, value: string }.', cookieObject)
@@ -61,16 +53,25 @@
     },
 
     _getCookieAsString: function (cookieObject, encode) {
-      var value = encode ? encodeURIComponent(JSON.stringify(cookieObject.value)): JSON.stringify(cookieObject.value);
-      return cookieObject.key + '=' +  value;
+      if (typeof cookieObject.value !== "string") {
+        cookieObject.value = JSON.stringify(cookieObject.value);
+      }
+      if (encode) {
+        cookieObject = this._encodeCookieObject(cookieObject);
+      }
+      return cookieObject.key + '=' +  cookieObject.value;
     },
 
+    _encodeCookieObject: function (cookieObject) {
+      cookieObject.value = encodeURIComponent(cookieObject.value);
+      return cookieObject
+    },
 
     _setCookie: function (cookie) {
       document.cookie = cookie;
     },
 
-    _validCookieObject: function (cookieObject) {
+    _isValidCookieObject: function (cookieObject) {
       return cookieObject && cookieObject.hasOwnProperty('key') && cookieObject.hasOwnProperty('value')
         && typeof cookieObject.key === 'string';
     },

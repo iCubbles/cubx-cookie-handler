@@ -27,7 +27,7 @@
     ],
     "elementaryComponents": [
       {
-        "artifactId": "cubx-cookie-handler",
+        "artifactId": "cubx-cookie-writer",
         "description": "This component allows managing cookies in client-side",
         "runnables": [
           {
@@ -42,7 +42,7 @@
           }
         ],
         "resources": [
-          "cubx-cookie-handler.html"
+          "cubx-cookie-writer.html"
         ],
         "dependencies": [
           {
@@ -52,7 +52,7 @@
         ],
         "slots": [
           {
-            "slotId": "cookieAsObject",
+            "slotId": "cookie",
             "type": "object",
             "description": "Slot to set a cookie using an object -> { \"key\": \"cookieKey\", \"value\": cookieValue }.",
             "direction": [
@@ -60,9 +60,9 @@
             ]
           },
           {
-            "slotId": "lastCookie",
-            "type": "object",
-            "description": "Slot indicating the last set cookie as object -> { \"asObject\": { \"key\": \"cookieKey\", \"value\": cookieValue }, \"asString\": \"cookieKey=cookieValue\" }",
+            "slotId": "allCookies",
+            "type": "string",
+            "description": "Get all the cookies which are alreay set.",
             "direction": [
               "output"
             ]
