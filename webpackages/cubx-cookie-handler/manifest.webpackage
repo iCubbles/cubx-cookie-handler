@@ -28,7 +28,7 @@
     "elementaryComponents": [
       {
         "artifactId": "cubx-cookie-writer",
-        "description": "This component allows managing cookies in client-side",
+        "description": "This component allows writing cookies in client-side",
         "runnables": [
           {
             "name": "demo",
@@ -58,11 +58,46 @@
             "direction": [
               "input"
             ]
+          }
+        ]
+      },
+      {
+        "artifactId": "cubx-cookie-reader",
+        "description": "This component allows reading cookies in client-side",
+        "runnables": [
+          {
+            "name": "demo",
+            "path": "/demo/index.html",
+            "description": "Demo app..."
           },
           {
-            "slotId": "allCookies",
+            "name": "docs",
+            "path": "/docs/index.html",
+            "description": "Show the interface of this component."
+          }
+        ],
+        "resources": [
+          "cubx-cookie-reader.html"
+        ],
+        "dependencies": [
+          {
+            "webpackageId": "cubx.core.rte@2.4.0",
+            "artifactId": "cubxpolymer"
+          }
+        ],
+        "slots": [
+          {
+            "slotId": "cookieKey",
             "type": "string",
-            "description": "Get all the cookies which are alreay set.",
+            "description": "Key of the cookie to be read",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "cookieValue",
+            "type": "object",
+            "description": "Value of the read cookie",
             "direction": [
               "output"
             ]
