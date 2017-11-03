@@ -36,12 +36,40 @@
     cubxReady: function () {
     },
 
-
     /**
      *  Observe the Cubbles-Component-Model: If value for slot 'cookieKey' has changed ...
      */
     modelCookieKeyChanged: function (cookieKey) {
       this._readAndSetCookieValue(cookieKey);
+    },
+
+    /**
+     *  Observe the Cubbles-Component-Model: If value for slot 'updateAllCookies' has changed ...
+     */
+    modelUpdateAllCookiesChanged: function (updateAllCookies) {
+      if (updateAllCookies) {
+        this.setAllCookies(this._readAllCookies());
+      }
+    },
+
+    _readAllCookies: function () {
+      var cookiesArray = this._cookiesStringToArray(document.cookie);
+      return cookiesArray.map(this._cookieStringToObject.bind(this));
+    },
+
+    _cookieStringToObject: function (cookieString) {
+      return {
+        key: this._extractKeyFromCookieString(cookieString),
+        value: this._extractValueFromCookieString(cookieString)
+      }
+    },
+
+    _extractValueFromCookieString: function (cookieString) {
+      return cookieString.substr(cookieString.indexOf('=') + 1, cookieString.length);
+    },
+
+    _extractKeyFromCookieString: function (cookieString) {
+      return cookieString.substr(0, cookieString.indexOf('='));
     },
 
     _readAndSetCookieValue: function (cookieKey) {
@@ -56,12 +84,6 @@
       return document.cookie.replace(new RegExp('(?:(?:^|.*;\\s*)' + cookieKey + '\\s*\\=\\s*([^;]*).*$)|^.*$'), "$1");
     },
 
-
-    _extractValueFromCookieString: function (cookieKey, cookieString) {
-      var name = cookieKey + "=";
-      return cookieString.substring(name.length, cookieString.length);
-    },
-
     _trimInitialCookieSpaces: function (cookie) {
       while (cookie.charAt(0) === ' ') {
         cookie = cookie.substring(1);
@@ -69,8 +91,8 @@
       return cookie;
     },
 
-    _cookiesStringToArray: function () {
-      var decodedCookie = decodeURIComponent(document.cookie);
+    _cookiesStringToArray: function (cookiesString) {
+      var decodedCookie = decodeURIComponent(cookiesString);
       return decodedCookie.split(';');
     }
   });

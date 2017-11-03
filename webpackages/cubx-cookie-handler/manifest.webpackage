@@ -101,6 +101,22 @@
             "direction": [
               "output"
             ]
+          },
+          {
+            "slotId" : "updateAllCookies",
+            "type": "boolean",
+            "description": "Update the 'allCookies' slot when true",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId" : "allCookies",
+            "type": "array",
+            "description": "Slot containing all cookies -> [{\"key\": \"cookieKey\", \"value\": \"cookieValue\"}, ...]",
+            "direction": [
+              "output"
+            ]
           }
         ]
       }
