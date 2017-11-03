@@ -53,15 +53,9 @@
     },
 
     _readCookie: function (cookieKey) {
-      var cookiesArray = this._cookiesStringToArray();
-      for (var i = 0; i < cookiesArray.length; i++) {
-        var cookieString = this._trimInitialCookieSpaces(cookiesArray[i]);
-        if (cookieString.indexOf(cookieKey + '=') === 0) {
-          return this._extractValueFromCookieString(cookieKey, cookieString)
-        }
-      }
-      return "";
+      return document.cookie.replace(new RegExp('(?:(?:^|.*;\\s*)' + cookieKey + '\\s*\\=\\s*([^;]*).*$)|^.*$'), "$1");
     },
+
 
     _extractValueFromCookieString: function (cookieKey, cookieString) {
       var name = cookieKey + "=";
