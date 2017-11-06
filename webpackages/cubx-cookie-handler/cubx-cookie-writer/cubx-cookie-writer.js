@@ -48,23 +48,45 @@
         this._setCookie(this._getCookieAsString(cookieObject, true));
       } else {
         this._logError('Invalid cookieObject. It should have following structure: ' +
-          '{ key: string, value: string }.', cookieObject)
+          '{ key: string, value: string, [expires]: date/string }.', cookieObject);
       }
     },
 
     _getCookieAsString: function (cookieObject, encode) {
-      if (typeof cookieObject.value !== "string") {
-        cookieObject.value = JSON.stringify(cookieObject.value);
+      if (typeof cookieObject.value !== 'string') {
+        cookieObject.value = this._cookieValueToString(cookieObject.value);
+        if (cookieObject.hasOwnProperty('expires') &&
+          typeof cookieObject.expires !== 'string') {
+          cookieObject.expires = this._cookieExpiresToString(cookieObject.expires);
+        }
       }
       if (encode) {
         cookieObject = this._encodeCookieObject(cookieObject);
       }
-      return cookieObject.key + '=' +  cookieObject.value;
+      console.log(this._cookieObjectToString(cookieObject));
+      return this._cookieObjectToString(cookieObject);
+    },
+
+    _cookieObjectToString: function (cookieObject) {
+      return cookieObject.key + '=' + cookieObject.value +
+        (cookieObject.hasOwnProperty('expires') ? '; expires=' + cookieObject.expires : '');
+    },
+
+    _cookieExpiresToString: function (cookieExpires) {
+      if (cookieExpires instanceof Date) {
+        return cookieExpires.toUTCString();
+      } else {
+        return '';
+      }
+    },
+
+    _cookieValueToString: function (cookieValue) {
+      return JSON.stringify(cookieValue);
     },
 
     _encodeCookieObject: function (cookieObject) {
       cookieObject.value = encodeURIComponent(cookieObject.value);
-      return cookieObject
+      return cookieObject;
     },
 
     _setCookie: function (cookie) {
@@ -72,12 +94,13 @@
     },
 
     _isValidCookieObject: function (cookieObject) {
-      return cookieObject && cookieObject.hasOwnProperty('key') && cookieObject.hasOwnProperty('value')
-        && typeof cookieObject.key === 'string';
+      return cookieObject && cookieObject.hasOwnProperty('key') &&
+        cookieObject.hasOwnProperty('value') &&
+        typeof cookieObject.key === 'string';
     },
 
     _logError: function (message, involvedObject) {
-      console.error(message, involvedObject || '')
+      console.error(message, involvedObject || '');
     }
   });
 }());

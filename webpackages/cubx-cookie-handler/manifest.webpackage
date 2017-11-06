@@ -54,7 +54,7 @@
           {
             "slotId": "cookie",
             "type": "object",
-            "description": "Slot to set a cookie using an object -> { \"key\": \"cookieKey\", \"value\": cookieValue }.",
+            "description": "Slot to set a cookie using an object -> { \"key\": \"cookieKey\", \"value\": \"cookieValue\", \"expires\":  \"expirationDate\"}.",
             "direction": [
               "input"
             ]
