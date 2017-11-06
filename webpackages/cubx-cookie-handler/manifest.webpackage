@@ -103,7 +103,7 @@
             ]
           },
           {
-            "slotId" : "updateAllCookies",
+            "slotId": "updateAllCookies",
             "type": "boolean",
             "description": "Update the 'allCookies' slot when true",
             "direction": [
@@ -111,11 +111,46 @@
             ]
           },
           {
-            "slotId" : "allCookies",
+            "slotId": "allCookies",
             "type": "array",
             "description": "Slot containing all cookies -> [{\"key\": \"cookieKey\", \"value\": \"cookieValue\"}, ...]",
             "direction": [
               "output"
+            ]
+          }
+        ]
+      },
+      {
+        "artifactId": "cubx-cookie-deleter",
+        "description": "Component to delete cookies in client-side",
+        "runnables": [
+          {
+            "name": "demo",
+            "path": "/demo/index.html",
+            "description": "Demo app..."
+          },
+          {
+            "name": "docs",
+            "path": "/docs/index.html",
+            "description": "Show the interface of this component."
+          }
+        ],
+        "resources": [
+          "cubx-cookie-deleter.html"
+        ],
+        "dependencies": [
+          {
+            "webpackageId": "cubx.core.rte@2.4.0",
+            "artifactId": "cubxpolymer"
+          }
+        ],
+        "slots": [
+          {
+            "slotId": "cookieKey",
+            "type": "string",
+            "description": "Key of the cookie to be deleted",
+            "direction": [
+              "input"
             ]
           }
         ]
