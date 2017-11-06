@@ -61,7 +61,7 @@
       return {
         key: this._extractKeyFromCookieString(cookieString),
         value: this._extractValueFromCookieString(cookieString)
-      }
+      };
     },
 
     _extractValueFromCookieString: function (cookieString) {
