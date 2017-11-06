@@ -44,7 +44,7 @@
     },
 
     _deleteCookie: function (cookieKey) {
-      document.cookie = cookieKey + '=; expires=0'
+      document.cookie = cookieKey + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
     }
   });
 }());
