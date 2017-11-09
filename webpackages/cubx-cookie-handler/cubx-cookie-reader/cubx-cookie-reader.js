@@ -81,7 +81,7 @@
     },
 
     _readCookie: function (cookieKey) {
-      return document.cookie.replace(new RegExp('(?:(?:^|.*;\\s*)' + cookieKey + '\\s*\\=\\s*([^;]*).*$)|^.*$'), "$1");
+      return document.cookie.replace(new RegExp('(?:(?:^|.*;\\s*)' + cookieKey + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1');
     },
 
     _trimInitialCookieSpaces: function (cookie) {
