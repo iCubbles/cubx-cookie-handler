@@ -73,22 +73,18 @@
     },
 
     _readAndSetCookieValue: function (cookieKey) {
-      var cookie = this._readCookie(cookieKey);
-      this.setCookieValue(cookie);
-      if (!cookie) {
+      var cookieValue = this._readCookie(cookieKey);
+      if (cookieValue !== undefined) {
+        this.setReadCookie({key: cookieKey, value: cookieValue});
+      } else {
+        this.setReadCookie(undefined);
         console.warn('The cookie with key=' + cookieKey + ' was not found');
       }
     },
 
     _readCookie: function (cookieKey) {
-      return document.cookie.replace(new RegExp('(?:(?:^|.*;\\s*)' + cookieKey + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1');
-    },
-
-    _trimInitialCookieSpaces: function (cookie) {
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      return cookie;
+      var regExp = new RegExp('(?:(?:^|.*;\\s*)' + cookieKey + '\\s*\\=\\s*([^;]*).*$)|^.*$');
+      return regExp.exec(document.cookie)[1];
     },
 
     _cookiesStringToArray: function (cookiesString) {

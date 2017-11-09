@@ -95,9 +95,9 @@
             ]
           },
           {
-            "slotId": "cookieValue",
+            "slotId": "readCookie",
             "type": "object",
-            "description": "Value of the read cookie",
+            "description": "Read cookie -> { \"key\": \"cookieKey\", \"value\": \"cookieValue\" }",
             "direction": [
               "output"
             ]
