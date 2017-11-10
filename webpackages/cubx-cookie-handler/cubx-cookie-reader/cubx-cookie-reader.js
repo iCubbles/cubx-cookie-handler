@@ -44,10 +44,10 @@
     },
 
     /**
-     *  Observe the Cubbles-Component-Model: If value for slot 'updateAllCookies' has changed ...
+     *  Observe the Cubbles-Component-Model: If value for slot 'readAllCookies' has changed ...
      */
-    modelUpdateAllCookiesChanged: function (updateAllCookies) {
-      if (updateAllCookies) {
+    modelReadAllCookiesChanged: function (readAllCookies) {
+      if (readAllCookies) {
         this.setAllCookies(this._readAllCookies());
       }
     },
