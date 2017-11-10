@@ -97,13 +97,13 @@
           {
             "slotId": "readCookie",
             "type": "object",
-            "description": "Read cookie -> { \"key\": \"cookieKey\", \"value\": \"cookieValue\" }",
+            "description": "Read cookie -> { \"key\": \"cookieKey\", \"value\": \"cookieValue\" } or undefined if not found",
             "direction": [
               "output"
             ]
           },
           {
-            "slotId": "updateAllCookies",
+            "slotId": "readAllCookies",
             "type": "boolean",
             "description": "Update the 'allCookies' slot when true",
             "direction": [
@@ -156,7 +156,166 @@
         ]
       }
     ],
-    "compoundComponents": [],
+    "compoundComponents": [
+      {
+        "artifactId": "cubx-cookie-handler",
+        "description": "Compound component to manage cookies",
+        "runnables": [
+          {
+            "name": "demo",
+            "path": "/demo/index.html",
+            "description": "Demo app..."
+          },
+          {
+            "name": "docs",
+            "path": "/docs/index.html",
+            "description": "Show the interface and dataflow of this component."
+          }
+        ],
+        "resources": [
+          "css/cubx-cookie-handler.css"
+        ],
+        "dependencies": [
+          {
+            "artifactId": "cubx-cookie-writer"
+          },
+          {
+            "artifactId": "cubx-cookie-reader"
+          },
+          {
+            "artifactId": "cubx-cookie-deleter"
+          }
+        ],
+        "slots": [
+          {
+            "slotId": "cookieToWrite",
+            "type": "object",
+            "description": "Slot to set a cookie using an object -> { \"key\": \"cookieKey\", \"value\": \"cookieValue\", \"expires\":  \"expirationDate\"}.",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "cookieKeyToRead",
+            "type": "string",
+            "description": "Key of the cookie to be read",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "readCookie",
+            "type": "object",
+            "description": "Read cookie -> { \"key\": \"cookieKey\", \"value\": \"cookieValue\" } or undefined if not found",
+            "direction": [
+              "output"
+            ]
+          },
+          {
+            "slotId": "readAllCookies",
+            "type": "boolean",
+            "description": "Update the 'allCookies' slot when true",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "allCookies",
+            "type": "array",
+            "description": "Slot containing all cookies from document.cookie -> [{\"key\": \"cookieKey\", \"value\": \"cookieValue\"}, ...]",
+            "direction": [
+              "output"
+            ]
+          },
+          {
+            "slotId": "cookieKeyToDelete",
+            "type": "string",
+            "description": "Key of the cookie to be deleted",
+            "direction": [
+              "input"
+            ]
+          }
+        ],
+        "members": [
+          {
+            "memberId": "cookieWriter",
+            "artifactId": "cubx-cookie-writer"
+          },
+          {
+            "memberId": "cookieReader",
+            "artifactId": "cubx-cookie-reader"
+          },
+          {
+            "memberId": "cookieDeleter",
+            "artifactId": "cubx-cookie-deleter"
+          }
+        ],
+        "connections": [
+          {
+            "connectionId": "cookieToWriteCon",
+            "source": {
+              "slot": "cookieToWrite"
+            },
+            "destination": {
+              "memberIdRef": "cookieWriter",
+              "slot": "cookie"
+            }
+          },
+          {
+            "connectionId": "cookieToReadCon",
+            "source": {
+              "slot": "cookieKeyToRead"
+            },
+            "destination": {
+              "memberIdRef": "cookieReader",
+              "slot": "cookieKey"
+            }
+          },
+          {
+            "connectionId": "readCookieCon",
+            "source": {
+              "memberIdRef": "cookieReader",
+              "slot": "readCookie"
+            },
+            "destination": {
+              "slot": "readCookie"
+            }
+          },
+          {
+            "connectionId": "readAllCookiesCon",
+            "source": {
+              "slot": "readAllCookies"
+            },
+            "destination": {
+              "memberIdRef": "cookieReader",
+              "slot": "readAllCookies"
+            },
+            "repeatedValues": true
+          },
+          {
+            "connectionId": "allCookiesCon",
+            "source": {
+              "memberIdRef": "cookieReader",
+              "slot": "allCookies"
+            },
+            "destination": {
+              "slot": "allCookies"
+            }
+          },
+          {
+            "connectionId": "cookieKeyToDeleteCon",
+            "source": {
+              "slot": "cookieKeyToDelete"
+            },
+            "destination": {
+              "memberIdRef": "cookieDeleter",
+              "slot": "cookieKey"
+            }
+          }
+        ],
+        "inits": []
+      }
+    ],
     "utilities": []
   }
 }
