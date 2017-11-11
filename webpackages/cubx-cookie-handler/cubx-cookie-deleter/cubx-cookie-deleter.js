@@ -40,7 +40,7 @@
      *  Observe the Cubbles-Component-Model: If value for slot 'cookieKey' has changed ...
      */
     modelCookieKeyChanged: function (cookieKey) {
-      this._deleteCookie(cookieKey);
+      this._deleteCookie(encodeURIComponent(cookieKey));
     },
 
     _deleteCookie: function (cookieKey) {

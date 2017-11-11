@@ -63,7 +63,6 @@
       if (encode) {
         cookieObject = this._encodeCookieObject(cookieObject);
       }
-      console.log(this._cookieObjectToString(cookieObject));
       return this._cookieObjectToString(cookieObject);
     },
 
@@ -85,6 +84,7 @@
     },
 
     _encodeCookieObject: function (cookieObject) {
+      cookieObject.key = encodeURIComponent(cookieObject.key);
       cookieObject.value = encodeURIComponent(cookieObject.value);
       return cookieObject;
     },

@@ -65,15 +65,15 @@
     },
 
     _extractValueFromCookieString: function (cookieString) {
-      return cookieString.substr(cookieString.indexOf('=') + 1, cookieString.length);
+      return this._decodeAndCleanString(cookieString.substr(cookieString.indexOf('=') + 1, cookieString.length));
     },
 
     _extractKeyFromCookieString: function (cookieString) {
-      return cookieString.substr(0, cookieString.indexOf('='));
+      return this._decodeAndCleanString(cookieString.substr(0, cookieString.indexOf('=')));
     },
 
     _readAndSetCookieValue: function (cookieKey) {
-      var cookieValue = this._readCookie(cookieKey);
+      var cookieValue = decodeURIComponent(this._readCookie(encodeURIComponent(cookieKey)));
       if (cookieValue !== undefined) {
         this.setReadCookie({key: cookieKey, value: cookieValue});
       } else {
@@ -88,8 +88,19 @@
     },
 
     _cookiesStringToArray: function (cookiesString) {
-      var decodedCookie = decodeURIComponent(cookiesString);
-      return decodedCookie.split(';');
+      return cookiesString.split(';');
+    },
+
+    _trimInitialCookieSpaces: function (cookieString) {
+      while (cookieString.charAt(0) === ' ') {
+        cookieString = cookieString.substring(1);
+      }
+      return cookieString;
+    },
+
+    _decodeAndCleanString: function (string) {
+      var cleanedString = this._trimInitialCookieSpaces(string);
+      return decodeURIComponent(cleanedString);
     }
   });
 }());
