@@ -17,9 +17,61 @@
     <script src="../../../cubx.core.rte@2.4.0/crc-loader/js/main.js" data-crcinit-loadcif="true"></script>
 
 </head>
-<body>
-<!--  Place cubbles components there. -->
-<cubx-cookie-reader cubx-webpackage-id="this"></cubx-cookie-reader>
 
+<body>
+<h1>&lt;cubx-cookie-reader&gt; demo</h1>
+<cubx-cookie-reader cubx-webpackage-id="this"></cubx-cookie-reader>
+<p><strong>document.cookie = </strong> "<span id="docCookieValueSpan"></span>"</p>
+
+<hr>
+<h2>Read a cookie</h2>
+<label for="cookieKeyInput">Cookie key:</label>
+<div>
+    <input id="cookieKeyInput">
+</div>
+<button id="cookieKeytBtn" disabled>Read cookie</button>
+<br><br>
+<textarea id="readCookieTA" cols="50" rows="4" readonly></textarea>
+
+<hr>
+<h2>Read all cookies</h2>
+<button id="allCookiestBtn" disabled>Read all cookies</button>
+<textarea id="allCookiesTA" cols="50" rows="12" readonly></textarea>
+
+<script>
+    var docCookieValueSpan = document.querySelector('#docCookieValueSpan');
+    setInitialCookies();
+    updateDocCookieValueSpan();
+    document.addEventListener('cifReady', function () {
+        var cookieKeytBtn = document.querySelector('#cookieKeytBtn');
+        var allCookiestBtn = document.querySelector('#allCookiestBtn');
+        var cookieReader = document.querySelector('cubx-cookie-reader');
+        var cookieKeyInput = document.querySelector('#cookieKeyInput');
+        var readCookieTA = document.querySelector('#readCookieTA');
+        var allCookiesTA = document.querySelector('#allCookiesTA');
+
+        cookieKeytBtn.removeAttribute('disabled');
+        cookieKeytBtn.addEventListener('click', function () {
+            cookieReader.setCookieKey(cookieKeyInput.value);
+            readCookieTA.value = JSON.stringify(cookieReader.getReadCookie(), null, '  ');
+            cookieKeyInput.value = '';
+        });
+
+        allCookiestBtn.removeAttribute('disabled');
+        allCookiestBtn.addEventListener('click', function () {
+            cookieReader.setReadAllCookies(true);
+            allCookiesTA.value = JSON.stringify(cookieReader.getAllCookies(), null, '  ');
+        });
+    });
+    function updateDocCookieValueSpan() {
+        docCookieValueSpan.innerHTML = document.cookie;
+    }
+    function setInitialCookies() {
+        var keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
+        keys.forEach(function (key,index) {
+            document.cookie = key + '=' + index;
+        })
+    }
+</script>
 </body>
 </html>
