@@ -18,8 +18,33 @@
 
 </head>
 <body>
+<h1>&lt;cubx-cookie-writer&gt; demo</h1>
 <!--  Place cubbles components there. -->
 <cubx-cookie-writer cubx-webpackage-id="this"></cubx-cookie-writer>
+<label for="cookieObjectTA">Cookie:</label>
+<div>
+    <textarea id="cookieObjectTA" cols="50" rows="6" placeholder="{&quot;key&quot;: cookieKey, &quot;value&quot;: cookieValue}"></textarea>
+</div>
+<button id="cookieObjectBtn" disabled>Write cookie</button>
 
+<p><strong>document.cookie = </strong> "<span id="docCookieValueSpan"></span>"</p>
+
+<script>
+    var docCookieValueSpan = document.querySelector('#docCookieValueSpan');
+    updateDocCookieValueSpan();
+    document.addEventListener('cifReady', function () {
+        var cookieObjectBtn = document.querySelector('#cookieObjectBtn');
+        var cookieWriter = document.querySelector('cubx-cookie-writer');
+        var cookieObjectTA = document.querySelector('#cookieObjectTA');
+        cookieObjectBtn.removeAttribute('disabled');
+        cookieObjectBtn.addEventListener('click', function () {
+            cookieWriter.setCookie(JSON.parse(cookieObjectTA.value));
+            updateDocCookieValueSpan();
+        });
+    });
+    function updateDocCookieValueSpan() {
+        docCookieValueSpan.innerHTML = document.cookie;
+    }
+</script>
 </body>
 </html>
