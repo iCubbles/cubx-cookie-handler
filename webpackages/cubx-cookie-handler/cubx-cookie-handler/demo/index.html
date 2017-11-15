@@ -18,8 +18,96 @@
 
 </head>
 <body>
-<!--  Place cubbles components there. -->
+<h1>&lt;cubx-cookie-handler&gt; demo</h1>
 <cubx-cookie-handler cubx-webpackage-id="this"></cubx-cookie-handler>
+<p><strong>document.cookie = </strong> "<span id="docCookieValueSpan"></span>"</p>
+<p>Note that cookie is encoded before being written.</p>
 
+<hr>
+<h2>Read a cookie</h2>
+<label for="cookieKeyInput">Cookie key:</label>
+<div>
+    <input id="cookieKeyInput">
+</div>
+<button id="cookieKeytBtn" disabled>Read cookie</button>
+<br><br>
+<textarea id="readCookieTA" cols="50" rows="4" readonly></textarea>
+
+<hr>
+<h2>Write a cookie</h2>
+<label for="cookieObjectTA">Cookie:</label>
+<div>
+    <textarea id="cookieObjectTA" cols="50" rows="6" placeholder="{&quot;key&quot;: cookieKey, &quot;value&quot;: cookieValue}"></textarea>
+</div>
+<button id="cookieObjectBtn" disabled>Write cookie</button>
+
+<hr>
+<h2>Delete a cookie</h2>
+<label for="cookieKeyInput">Cookie key:</label>
+<div>
+    <input id="cookieKeyDelInput">
+</div>
+<button id="cookieKeyDelBtn" disabled>Delete cookie</button>
+
+
+<hr>
+<h2>Read all cookies</h2>
+<button id="allCookiestBtn" disabled>Read all cookies</button>
+<br>
+<textarea id="allCookiesTA" cols="50" rows="12" readonly></textarea>
+
+<script>
+    var docCookieValueSpan = document.querySelector('#docCookieValueSpan');
+    setInitialCookies();
+    updateDocCookieValueSpan();
+    document.addEventListener('cifReady', function () {
+        var cookieKeytBtn = document.querySelector('#cookieKeytBtn');
+        var allCookiestBtn = document.querySelector('#allCookiestBtn');
+        var cookieHandler = document.querySelector('cubx-cookie-handler');
+        var cookieKeyInput = document.querySelector('#cookieKeyInput');
+        var readCookieTA = document.querySelector('#readCookieTA');
+        var allCookiesTA = document.querySelector('#allCookiesTA');
+        var cookieObjectBtn = document.querySelector('#cookieObjectBtn');
+        var cookieObjectTA = document.querySelector('#cookieObjectTA');
+        var cookieKeyDelBtn = document.querySelector('#cookieKeyDelBtn');
+        var cookieKeyDelInput = document.querySelector('#cookieKeyDelInput');
+
+        cookieKeytBtn.removeAttribute('disabled');
+        cookieKeytBtn.addEventListener('click', function () {
+            cookieHandler.setCookieKeyToRead(cookieKeyInput.value);
+            readCookieTA.value = JSON.stringify(cookieHandler.getReadCookie(), null, '  ');
+            cookieKeyInput.value = '';
+        });
+
+        allCookiestBtn.removeAttribute('disabled');
+        allCookiestBtn.addEventListener('click', function () {
+            cookieHandler.setReadAllCookies(true);
+            allCookiesTA.value = JSON.stringify(cookieHandler.getAllCookies(), null, '  ');
+        });
+
+        cookieObjectBtn.removeAttribute('disabled');
+        cookieObjectBtn.addEventListener('click', function () {
+            cookieHandler.setCookieToWrite(JSON.parse(cookieObjectTA.value));
+            cookieObjectTA.value = '';
+            updateDocCookieValueSpan();
+        });
+
+        cookieKeyDelBtn.removeAttribute('disabled');
+        cookieKeyDelBtn.addEventListener('click', function () {
+            cookieHandler.setCookieKeyToDelete(cookieKeyDelInput.value);
+            cookieKeyDelInput.value = '';
+            updateDocCookieValueSpan();
+        });
+    });
+    function updateDocCookieValueSpan() {
+        docCookieValueSpan.innerHTML = document.cookie;
+    }
+    function setInitialCookies() {
+        var keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
+        keys.forEach(function (key,index) {
+            document.cookie = key + '=' + index;
+        })
+    }
+</script>
 </body>
 </html>
